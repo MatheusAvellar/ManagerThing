@@ -1,0 +1,12 @@
+﻿<Window x:Class="ManagerThing.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Manager Thing" Height="350" Width="525" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen" FontFamily="Open Sans">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="93*"/>
+            <ColumnDefinition Width="424*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Name="dateText" Text="hh:mm:ss" Grid.ColumnSpan="2"/>
+    </Grid>
+</Window>
