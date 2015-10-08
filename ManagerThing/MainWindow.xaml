@@ -1,12 +1,26 @@
 ﻿<Window x:Class="ManagerThing.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Manager Thing" Height="350" Width="525" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen" FontFamily="Open Sans">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="93*"/>
-            <ColumnDefinition Width="424*"/>
-        </Grid.ColumnDefinitions>
-        <TextBlock Name="dateText" Text="hh:mm:ss" Grid.ColumnSpan="2"/>
+        Background="Transparent"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Title="Manager Thing"
+        Height="135.111"
+        Width="389"
+        ResizeMode="NoResize"
+        Topmost="True"
+        WindowStartupLocation="CenterScreen" Foreground="#FFEEEEEE">
+    <Grid Name="content" Background="#FF282C35" Margin="0,00,20,20">
+        <Grid.Effect>
+            <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2"/>
+        </Grid.Effect>
+        <Rectangle Fill="#AA444A59" Height="23" VerticalAlignment="Top"  MouseLeftButtonDown="DragWindow" />
+        <Label Name="closeWindowButton" Content="×" Margin="343,-10,0,92" Foreground="#FF1C1F25" HorizontalAlignment="Center" VerticalAlignment="Center" Height="33" Width="26" FontSize="20" MouseDown="CloseWindow" MouseEnter="CloseWindowEnter" MouseLeave="CloseWindowLeave"/>
+        <Label Content="Manager Thing" MouseLeftButtonDown="DragWindow" Foreground="#FFEEEEEE" Margin="0,0,139,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Right" Width="92" />
+        <TextBlock Name="timeText" Text="12:00:00" Margin="0,0,85,12" Foreground="#FFEEEEEE" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="22"/>
+        <Grid Name="dateGrid" MouseEnter="gridOnMouseEnter" MouseLeave="gridOnMouseLeave">
+            <TextBlock Name="weekText" Text="Never-o-day" Margin="0,0,9,29" Foreground="#FF444A59" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="11"/>
+            <TextBlock Name="dateText" Text="08/10/2015" Margin="0,0,9,10" Foreground="#FF444A59" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="14"/>
+        </Grid>
     </Grid>
 </Window>

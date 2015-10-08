@@ -11,3 +11,16 @@ C:\Users\matheus\Documents\ManagerThing\ManagerThing\ManagerThing\obj\Debug\Mana
 C:\Users\matheus\Documents\ManagerThing\ManagerThing\ManagerThing\obj\Debug\ManagerThing.csproj.GenerateResource.Cache
 C:\Users\matheus\Documents\ManagerThing\ManagerThing\ManagerThing\obj\Debug\ManagerThing.exe
 C:\Users\matheus\Documents\ManagerThing\ManagerThing\ManagerThing\obj\Debug\ManagerThing.pdb
+C:\Users\matheus\Desktop\GitHub\ManagerThing\ManagerThing\bin\Debug\ManagerThing.exe.config
+C:\Users\matheus\Desktop\GitHub\ManagerThing\ManagerThing\obj\Debug\ManagerThing.exe
+C:\Users\matheus\Desktop\GitHub\ManagerThing\ManagerThing\obj\Debug\ManagerThing.pdb
+C:\Users\matheus\Desktop\GitHub\ManagerThing\ManagerThing\bin\Debug\ManagerThing.exe
+C:\Users\matheus\Desktop\GitHub\ManagerThing\ManagerThing\bin\Debug\ManagerThing.pdb
+C:\Users\matheus\Desktop\GitHub\ManagerThing\ManagerThing\obj\Debug\ManagerThing.csprojResolveAssemblyReference.cache
+C:\Users\matheus\Desktop\GitHub\ManagerThing\ManagerThing\obj\Debug\MainWindow.baml
+C:\Users\matheus\Desktop\GitHub\ManagerThing\ManagerThing\obj\Debug\MainWindow.g.cs
+C:\Users\matheus\Desktop\GitHub\ManagerThing\ManagerThing\obj\Debug\App.g.cs
+C:\Users\matheus\Desktop\GitHub\ManagerThing\ManagerThing\obj\Debug\ManagerThing_MarkupCompile.cache
+C:\Users\matheus\Desktop\GitHub\ManagerThing\ManagerThing\obj\Debug\ManagerThing.g.resources
+C:\Users\matheus\Desktop\GitHub\ManagerThing\ManagerThing\obj\Debug\ManagerThing.Properties.Resources.resources
+C:\Users\matheus\Desktop\GitHub\ManagerThing\ManagerThing\obj\Debug\ManagerThing.csproj.GenerateResource.Cache
