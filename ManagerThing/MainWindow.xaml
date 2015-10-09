@@ -24,12 +24,16 @@
             <TextBlock Name="weekText" Text="Never-o-day" Margin="-36,-14,9,29" Foreground="#FF444A59" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="11" Width="71"/>
             <TextBlock Name="dateText" Text="08/10/2015" Margin="-36,0,9,10" Foreground="#FF444A59" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="14" Width="71"/>
         </Grid>
-        <TextBlock Name="ipText" Text="127.0.0.1" Margin="60,0,0,29" Foreground="#FFEEEEEE" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="14" RenderTransformOrigin="0.602,0.517"/>
-        <TextBlock Name="ipText_local" Text="127.0.0.1" Margin="60,0,0,48" Foreground="#FFEEEEEE" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="14" RenderTransformOrigin="0.861,0.579"/>
-        <TextBlock Name="hasInternet" Text="Checking for internet connection" Margin="10,0,0,12" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
-        <TextBlock Name="ipLabel_local" Text="Local" Margin="25,0,0,47" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
-        <TextBlock Name="ipLabel" Text="Public" Margin="25,0,0,30" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
-        <TextBlock Name="ipRefresh" Text="↺" Margin="6,0,0,36" Foreground="#FF009CDD" VerticalAlignment="Bottom" FontSize="16" HorizontalAlignment="Left" MouseDown="IpRefresh" Cursor="Hand" MouseLeftButtonDown="IpRefresh"/>
+        <TextBlock Name="ipText" Text="127.0.0.1" Margin="60,0,0,33" Foreground="#FFEEEEEE" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="14" RenderTransformOrigin="0.602,0.517"/>
+        <TextBlock Name="ipText_local" Text="127.0.0.1" Margin="60,0,0,52" Foreground="#FFEEEEEE" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="14" RenderTransformOrigin="0.861,0.579"/>
+        <TextBlock Name="hasInternet" Text="● Internet" Margin="5,0,0,17" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
+        <TextBlock Text="" Margin="17,0,0,17" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
+        <TextBlock Name="hasNetwork" Text="● Network" Margin="5,0,0,4" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
+        <TextBlock Text="" Margin="17,0,0,4" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
+        <TextBlock Name="ipLabel_local" Text="Local" Margin="25,0,0,51" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
+        <TextBlock Name="ipLabel" Text="Public" Margin="25,0,0,34" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
+        <TextBlock Name="ipRefresh" Text="↺" Margin="6,0,0,40" Foreground="#FF009CDD" VerticalAlignment="Bottom" FontSize="16" HorizontalAlignment="Left" MouseDown="IpRefresh" Cursor="Hand" MouseLeftButtonDown="IpRefresh"/>
+        <PasswordBox Password="" Name="passwordInput" HorizontalAlignment="Left" Margin="276,28,0,0" VerticalAlignment="Top" Width="42" MaxLength="5"/>
         <Rectangle Name="loadingScreen" Fill="#FF282C35" Height="104" VerticalAlignment="Top" MouseLeftButtonDown="DragWindow" />
         <TextBlock Name="loadingText" Text="Loading..." Foreground="#FFEEEEEE" FontSize="14" RenderTransformOrigin="3.075,9.154" Margin="133,41,0,0" MouseLeftButtonDown="DragWindow" HorizontalAlignment="Left" Width="62" Height="22" VerticalAlignment="Top"/>
     </Grid>
