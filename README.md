@@ -9,3 +9,6 @@ Application containing a ton of stuff, eventually
 * Real time network availability check
 
 * Current date and time to the precision of a second
+
+
+More to come, soon! :smile:
