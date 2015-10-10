@@ -18,19 +18,17 @@ using System.Windows.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using System.Diagnostics;
 
 namespace ManagerThing
 {
     public partial class MainWindow : Window
     {
-
         [DllImport("user32.dll")]
         public static extern int GetAsyncKeyState(Int32 i);
 
         string pathname = @"C:\Log";
-
         string _password = "admin";
-
 
         public MainWindow()
         {
@@ -44,18 +42,39 @@ namespace ManagerThing
             bool hasNetworkConnection = System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
             this.ipText.Text = (Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork)).ToString();
 
+            DriveInfo[] drives = DriveInfo.GetDrives();
+
             DispatcherTimer timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 72), DispatcherPriority.Normal, delegate {
                 iterationCount++;
+                this.secondsText.Text = DateTime.Now.ToString("ss'.'fff");
+                this.timeText.Text = DateTime.Now.ToString("HH:mm");
                 if (iterationCount % 32 == 0) {
                     hasInternetConnection = HasInternetConnection();
                     hasNetworkConnection = System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
                 }
+                if (iterationCount % 1000 == 0 || iterationCount == 5) {
+                    driveNames.Text = "";
+                    foreach (DriveInfo drive in drives) {
+                        driveNames.Text += (drive + " [" + drive.DriveType + (drive.IsReady ? " | " + drive.DriveFormat : "") + "]\n");
+                        if (drive.IsReady && drive.DriveType.ToString() == "Fixed") {
+                            float totalDriveSize = (drive.TotalSize / 1073741824);
+                            float totalFreeSize = (drive.TotalFreeSpace / 1073741824);
+                            float totalUsedSize = (totalDriveSize - totalFreeSize);
+                            availMemoryName.Text = drive.Name;
+                            availMemoryValue.Text = "Used " + totalUsedSize + "GB / " + totalDriveSize + "GB";
+
+                            double _usedMemoryPercentage = Math.Abs(rect_totalMemory.Width * (totalUsedSize / totalDriveSize));
+                            rect_usedMemory.Width = Math.Abs(_usedMemoryPercentage);
+                        }
+                    }
+
+                    internetSpeed.Text = pingTime().ToString("N2") + " kbps";
+                }
                 if (iterationCount % 16 == 0) {
-                    if (this.passwordInput.Password == _password.ToLower()) {
+                    if (!isAdmin && this.passwordInput.Password.ToLower() == _password.ToLower()) {
                         this.passwordInput.Visibility = System.Windows.Visibility.Collapsed;
                         isAdmin = true;
                     }
-                    this.timeText.Text = DateTime.Now.ToString("HH:mm:ss");
                     this.weekText.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(DateTime.Now.ToString("dddd"));
                     this.dateText.Text = DateTime.Now.ToString("dd/MM/yyyy");
                     this.dateText.ToolTip = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(DateTime.Now.ToString("MMMM"));
@@ -118,17 +137,9 @@ namespace ManagerThing
             }, this.Dispatcher);
         }
 
-        private void gridOnMouseEnter(object sender, MouseEventArgs e)
-        {
-            weekText.Foreground = dateText.Foreground = (Brush)new BrushConverter().ConvertFromString("#ffeeeeee");
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+            writeText(DateTime.Now.ToString("'[Logged out] 'dd/MM/yyyy' at 'HH:mm:ss"));
         }
-
-        private void gridOnMouseLeave(object sender, MouseEventArgs e)
-        {
-            weekText.Foreground = dateText.Foreground = (Brush)new BrushConverter().ConvertFromString("#ff444a59");
-        }
-
-
 
         private void DragWindow(object sender, MouseButtonEventArgs e) {  DragMove();  }
 
@@ -148,7 +159,14 @@ namespace ManagerThing
         private void AlphaWindowEnter(object sender, MouseEventArgs e) {  alphaWindowButton.Foreground = (Brush)new BrushConverter().ConvertFromString("#ffeeeeee");  }
         private void AlphaWindowLeave(object sender, MouseEventArgs e) {  alphaWindowButton.Foreground = (Brush)new BrushConverter().ConvertFromString("#ff1c1f25");  }
 
-
+        private double pingTime()
+        {
+            System.Net.WebClient wc = new System.Net.WebClient();
+            DateTime dt1 = DateTime.Now;
+            byte[] data = wc.DownloadData("http://google.com");
+            DateTime dt2 = DateTime.Now;
+            return ((data.Length * 8) / (dt2 - dt1).TotalSeconds) / 1024;
+        }
         public bool HasInternetConnection()
         {
             try {
@@ -161,7 +179,7 @@ namespace ManagerThing
                 if (str == "0") {
                     return true;
                 } else {
-                    Console.WriteLine(str);
+                    writeText("[WebResponse] " + str);
                     return false;
                 }
             } catch {
@@ -180,7 +198,7 @@ namespace ManagerThing
         {
             try {
                 string direction = "";
-                WebRequest request = WebRequest.Create("http://matheus.avellar.c9.io/ip");
+                WebRequest request = WebRequest.Create("http://matheus.avellar.c9.io/resources/ip");
                 using (WebResponse response = request.GetResponse())
                 using (StreamReader stream = new StreamReader(response.GetResponseStream())) {
                     direction = stream.ReadToEnd();

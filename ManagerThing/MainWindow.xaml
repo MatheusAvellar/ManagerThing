@@ -5,36 +5,42 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Title="Manager Thing"
-        Height="124.111"
-        Width="347.5"
+        Height="220"
+        Width="347.5" 
         ResizeMode="NoResize"
         Topmost="True"
         WindowStartupLocation="CenterScreen"
-        Foreground="#FFEEEEEE">
+        Foreground="#ffeeeeee" 
+        ShowInTaskbar="False">
     <Grid Name="content" Background="#ff282C35" Margin="0,00,20,20">
         <Grid.Effect>
             <DropShadowEffect BlurRadius="15" Direction="-90" RenderingBias="Quality" ShadowDepth="2"/>
         </Grid.Effect>
         <Rectangle Fill="#AA444A59" Height="23" VerticalAlignment="Top"  MouseLeftButtonDown="DragWindow" />
-        <Label Name="minimizeWindowButton" Content="─" Margin="307,-6,0,81" Foreground="#FF1C1F25" HorizontalAlignment="Center" VerticalAlignment="Center" Height="29" Width="21" FontSize="20" MouseDown="MinimizeWindow" MouseEnter="MinimizeWindowEnter" MouseLeave="MinimizeWindowLeave"/>
-        <Label Name="alphaWindowButton" Content="⍺" Margin="283,-9,21,81" Foreground="#FF1C1F25" HorizontalAlignment="Center" VerticalAlignment="Center" Height="32" Width="24" FontSize="20" MouseDown="AlphaWindow" MouseEnter="AlphaWindowEnter" MouseLeave="AlphaWindowLeave"/>
+        <Label Name="minimizeWindowButton" Content="─" Margin="307,-6,0,0" Foreground="#FF1C1F25" HorizontalAlignment="Center" VerticalAlignment="Top" Height="29" Width="21" FontSize="20" MouseDown="MinimizeWindow" MouseEnter="MinimizeWindowEnter" MouseLeave="MinimizeWindowLeave"/>
+        <Label Name="alphaWindowButton" Content="⍺" Margin="283,-9,21,0" Foreground="#FF1C1F25" HorizontalAlignment="Center" VerticalAlignment="Top" Height="32" Width="24" FontSize="20" MouseDown="AlphaWindow" MouseEnter="AlphaWindowEnter" MouseLeave="AlphaWindowLeave"/>
         <Label Name="WindowTitle" Content="Manager Thing" MouseLeftButtonDown="DragWindow" Foreground="#FFEEEEEE" Margin="118,0,0,0" VerticalAlignment="Top" Height="30" HorizontalAlignment="Left" Width="92" />
-        <TextBlock Name="timeText" Text="12:00:00" Margin="0,0,85,12" Foreground="#FFEEEEEE" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="22"/>
-        <Grid Name="dateGrid" MouseEnter="gridOnMouseEnter" MouseLeave="gridOnMouseLeave" Margin="284,74,0,0">
-            <TextBlock Name="weekText" Text="Never-o-day" Margin="-36,-14,9,29" Foreground="#FF444A59" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="11" Width="71"/>
-            <TextBlock Name="dateText" Text="08/10/2015" Margin="-36,0,9,10" Foreground="#FF444A59" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="14" Width="71"/>
-        </Grid>
-        <TextBlock Name="ipText" Text="127.0.0.1" Margin="60,0,0,33" Foreground="#FFEEEEEE" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="14" RenderTransformOrigin="0.602,0.517"/>
-        <TextBlock Name="ipText_local" Text="127.0.0.1" Margin="60,0,0,52" Foreground="#FFEEEEEE" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="14" RenderTransformOrigin="0.861,0.579"/>
-        <TextBlock Name="hasInternet" Text="● Internet" Margin="5,0,0,17" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
+        <TextBlock Name="timeText" Text="12:00" Margin="0,46,66,0" Foreground="#FFEEEEEE" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="28"/>
+        <TextBlock Name="secondsText" Text="00.000" Margin="0,64,28,0" Foreground="#FF444A59" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        <TextBlock Name="weekText" Text="Monday" Margin="265,54,0,134" Foreground="#ffeeeeee" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="10" Width="51"/>
+        <TextBlock Name="dateText" Text="08/10/2015" Margin="0,0,1,163" Foreground="#ffeeeeee" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontSize="10" Width="53"/>
+        <TextBlock Name="ipText" Text="127.0.0.1" Margin="60,52,0,0" Foreground="#FFEEEEEE" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" RenderTransformOrigin="0.602,0.517"/>
+        <TextBlock Name="ipText_local" Text="127.0.0.1" Margin="60,33,0,0" Foreground="#FFEEEEEE" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" RenderTransformOrigin="0.861,0.579"/>
+        <TextBlock Name="hasInternet" Text="● Internet" Margin="5,74,0,0" Foreground="#FF444A59" VerticalAlignment="Top" FontSize="10" HorizontalAlignment="Left"/>
         <TextBlock Text="" Margin="17,0,0,17" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
-        <TextBlock Name="hasNetwork" Text="● Network" Margin="5,0,0,4" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
+        <TextBlock Name="hasNetwork" Text="● Network" Margin="5,87,0,0" Foreground="#FF444A59" VerticalAlignment="Top" FontSize="10" HorizontalAlignment="Left"/>
+        <TextBlock Name="internetSpeed" Text="0 kbps" Margin="60,74,0,0" Foreground="#FF444A59" VerticalAlignment="Top" FontSize="10" HorizontalAlignment="Left"/>
         <TextBlock Text="" Margin="17,0,0,4" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
-        <TextBlock Name="ipLabel_local" Text="Local" Margin="25,0,0,51" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
-        <TextBlock Name="ipLabel" Text="Public" Margin="25,0,0,34" Foreground="#FF444A59" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Left"/>
-        <TextBlock Name="ipRefresh" Text="↺" Margin="6,0,0,40" Foreground="#FF009CDD" VerticalAlignment="Bottom" FontSize="16" HorizontalAlignment="Left" MouseDown="IpRefresh" Cursor="Hand" MouseLeftButtonDown="IpRefresh"/>
-        <PasswordBox Password="" Name="passwordInput" HorizontalAlignment="Left" Margin="276,28,0,0" VerticalAlignment="Top" Width="42" MaxLength="5"/>
-        <Rectangle Name="loadingScreen" Fill="#FF282C35" Height="104" VerticalAlignment="Top" MouseLeftButtonDown="DragWindow" />
-        <TextBlock Name="loadingText" Text="Loading..." Foreground="#FFEEEEEE" FontSize="14" RenderTransformOrigin="3.075,9.154" Margin="133,41,0,0" MouseLeftButtonDown="DragWindow" HorizontalAlignment="Left" Width="62" Height="22" VerticalAlignment="Top"/>
+        <TextBlock Name="ipLabel_local" Text="Local" Margin="25,40,0,0" Foreground="#FF444A59" VerticalAlignment="Top" FontSize="10" HorizontalAlignment="Left"/>
+        <TextBlock Name="ipLabel" Text="Public" Margin="25,57,0,0" Foreground="#FF444A59" VerticalAlignment="Top" FontSize="10" HorizontalAlignment="Left"/>
+        <TextBlock Name="ipRefresh" Text="↺" Margin="6,43,0,0" Foreground="#FF009CDD" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Left" MouseDown="IpRefresh" Cursor="Hand" MouseLeftButtonDown="IpRefresh"/>
+        <Rectangle Name="rect_totalMemory" Fill="#ff444a59" Height="15" VerticalAlignment="Top" Margin="6,114,185,0" Width="135" />
+        <Rectangle Name="rect_usedMemory" Fill="#ff009CDD" Height="15" VerticalAlignment="Top" Margin="7,114,0,0" Width="135" HorizontalAlignment="Left" />
+        <TextBlock Name="availMemoryName" Text="C:\" Margin="10,114,0,0" Foreground="#ffeeeeee" VerticalAlignment="Top" FontSize="10" HorizontalAlignment="Left" Height="15"/>
+        <TextBlock Name="availMemoryValue" Text="Used 0GB / 0GB" Margin="35,114,0,0" Foreground="#ffeeeeee" VerticalAlignment="Top" FontSize="10" HorizontalAlignment="Left" Height="15" Width="107"/>
+        <TextBlock Name="driveNames" Text="C:\" Margin="8,134,0,10" Foreground="#ffeeeeee" FontSize="10" HorizontalAlignment="Left" Width="134"/>
+        <PasswordBox Password="" Name="passwordInput" HorizontalAlignment="Left" Margin="60,73,0,0" VerticalAlignment="Top" Width="54" MaxLength="5"/>
+        <Rectangle Name="loadingScreen" Fill="#FF282C35" Height="200" VerticalAlignment="Top" MouseLeftButtonDown="DragWindow" />
+        <TextBlock Name="loadingText" Text="Loading..." Foreground="#FFEEEEEE" FontSize="14" RenderTransformOrigin="3.075,9.154" Margin="133,90,0,0" MouseLeftButtonDown="DragWindow" HorizontalAlignment="Left" Width="62" Height="22" VerticalAlignment="Top"/>
     </Grid>
 </Window>
