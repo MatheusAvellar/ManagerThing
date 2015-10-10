@@ -12,3 +12,8 @@ Application containing a ton of stuff, eventually
 
 
 More to come, soon! :smile:
+
+
+Here's how it is looking like, currently:
+
+![Image](http://i.imgur.com/0HekbvV.png)
