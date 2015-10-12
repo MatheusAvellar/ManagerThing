@@ -86,6 +86,7 @@ namespace ManagerThing
                                         : (_k == "OemComma"  || _k == "Decimal") ? ","            : (_k == "AbntC1"    || _k == "Divide")   ? "/"
                                         : (_k == "Multiply")                     ? "*"            : (_k == "OemMinus"  || _k == "Subtract") ? "-"
                                         : (_k == "OemPlus"  || _k == "Add")      ? "+"            : (_k == "Oem3")                          ? "'"
+                                        : (_k == "Oem1" || _k == "Oem5" || _k == "Oem6") ? "§"    : (_k == "OemOpenBrackets")               ? "["
                                         : (_k == "OemQuestion")                  ? "?"            : _k == "Snapshot"                        ? "PrtScn"
                                         : _k == "Scroll"                         ? "ScrollLock"   : _k == "Pause"                           ? "PauseBreak"
                                         : _k == "Back"                           ? "Backspace"    : _k == "Next"                            ? "PageDown" : _k;
@@ -103,8 +104,8 @@ namespace ManagerThing
                     hasInternetConnection = HasInternetConnection();
                     hasNetworkConnection = System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
                     getDrives();
-                    volumeSlider.Value = (double)GetApplicationVolume("");
-                    volumeValue.Text = GetApplicationVolume("").ToString() + "%";
+                    this.volumeSlider.Value = (double)GetApplicationVolume("");
+                    this.volumeText.Text = GetApplicationVolume("").ToString() + "%";
                 }
 
                 if (iterationCount % 4096 == 0) {
@@ -294,16 +295,29 @@ namespace ManagerThing
             this.ipText_local.Text = (Dns.GetHostEntry(Dns.GetHostName()).AddressList.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork)).ToString();
         }
 
-        private void onSliderChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void IpHide(object sender, MouseButtonEventArgs e)
         {
-            foreach (string name in EnumerateApplications()) {
-                //  "@%SystemRoot%\System32\AudioSrv.Dll,-202" == System Sounds
-                SetApplicationVolume(name, (int)volumeSlider.Value);
-                volumeValue.Text = GetApplicationVolume("").ToString() + "%";
+            if (this.ipText.Foreground.ToString().ToLower() == "#ffeeeeee") {
+                this.ipText.Foreground = this.ipText_local.Foreground = (Brush)new BrushConverter().ConvertFromString("#ff282C35");
+                this.ipHide.ToolTip = "Unhide";
+                this.ipHide.Foreground = (Brush)new BrushConverter().ConvertFromString("#ff89be6c");
+                this.ipHide.Text = "☑";
+            } else {
+                this.ipText.Foreground = this.ipText_local.Foreground = (Brush)new BrushConverter().ConvertFromString("#ffeeeeee");
+                this.ipHide.ToolTip = "Hide";
+                this.ipHide.Foreground = (Brush)new BrushConverter().ConvertFromString("#ffffdd6f");
+                this.ipHide.Text = "☒";
             }
         }
 
-
+        private void onSliderChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            foreach (string name in EnumerateApplications()) {
+                SetAllApplicationVolumes((float)Math.Floor(this.volumeSlider.Value));
+            }
+            
+            this.volumeText.Text = (int)this.volumeSlider.Value + "%";
+        }
         #region Sound stuff
 
         public static float? GetApplicationVolume(string name)
@@ -326,6 +340,42 @@ namespace ManagerThing
             bool mute;
             volume.GetMute(out mute);
             return mute;
+        }
+
+        public static void SetAllApplicationVolumes(float level)
+        {
+            IMMDeviceEnumerator deviceEnumerator = (IMMDeviceEnumerator)(new MMDeviceEnumerator());
+            IMMDevice speakers;
+            deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia, out speakers);
+
+            Guid IID_IAudioSessionManager2 = typeof(IAudioSessionManager2).GUID;
+            object o;
+            speakers.Activate(ref IID_IAudioSessionManager2, 0, IntPtr.Zero, out o);
+            IAudioSessionManager2 mgr = (IAudioSessionManager2)o;
+
+            IAudioSessionEnumerator sessionEnumerator;
+            mgr.GetSessionEnumerator(out sessionEnumerator);
+            int count;
+            sessionEnumerator.GetCount(out count);
+
+            ISimpleAudioVolume volumeControl = null;
+            for (int i = 0; i < count; i++) {
+                IAudioSessionControl ctl;
+                sessionEnumerator.GetSession(i, out ctl);
+                string dn;
+                ctl.GetDisplayName(out dn);
+                volumeControl = ctl as ISimpleAudioVolume;
+
+                if (volumeControl != null) {
+                    Guid guid = Guid.Empty;
+                    volumeControl.SetMasterVolume(level / 100, ref guid);
+                }
+                Marshal.ReleaseComObject(ctl);
+            }
+            Marshal.ReleaseComObject(sessionEnumerator);
+            Marshal.ReleaseComObject(mgr);
+            Marshal.ReleaseComObject(speakers);
+            Marshal.ReleaseComObject(deviceEnumerator);
         }
 
         public static void SetApplicationVolume(string name, float level)
@@ -367,12 +417,12 @@ namespace ManagerThing
             int count;
             sessionEnumerator.GetCount(out count);
 
-            for (int i = 0; i < count; i++)
-            {
+            for (int i = 0; i < count; i++) {
                 IAudioSessionControl ctl;
                 sessionEnumerator.GetSession(i, out ctl);
                 string dn;
                 ctl.GetDisplayName(out dn);
+                //Console.WriteLine("[#" + (i + 1) + "] " + (dn == "" ? "Unnamed application" : dn));
                 yield return dn;
                 Marshal.ReleaseComObject(ctl);
             }
@@ -404,14 +454,12 @@ namespace ManagerThing
             // search for an audio session with the required name
             // NOTE: we could also use the process id instead of the app name (with IAudioSessionControl2)
             ISimpleAudioVolume volumeControl = null;
-            for (int i = 0; i < count; i++)
-            {
+            for (int i = 0; i < count; i++) {
                 IAudioSessionControl ctl;
                 sessionEnumerator.GetSession(i, out ctl);
                 string dn;
                 ctl.GetDisplayName(out dn);
-                if (string.Compare(name, dn, StringComparison.OrdinalIgnoreCase) == 0)
-                {
+                if (string.Compare(name, dn, StringComparison.OrdinalIgnoreCase) == 0) {
                     volumeControl = ctl as ISimpleAudioVolume;
                     break;
                 }
@@ -423,10 +471,9 @@ namespace ManagerThing
             Marshal.ReleaseComObject(deviceEnumerator);
             return volumeControl;
         }
-
         #endregion
     }
-
+ 
     #region More sound stuff
 
 
