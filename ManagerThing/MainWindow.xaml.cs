@@ -4,11 +4,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -99,7 +101,7 @@ namespace ManagerThing
                 }
 
                 if (iterationCount == 5) {
-                    internetSpeed.Text = pingTime().ToString("N2") + " Mbps";
+                    internetSpeed.Text = pingTime().ToString() + "ms";
                     writeText("[Ping Test ] " + internetSpeed.Text);
                     hasInternetConnection = HasInternetConnection();
                     hasNetworkConnection = System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
@@ -125,7 +127,7 @@ namespace ManagerThing
                         this.beep4.Foreground = (Brush)new BrushConverter().ConvertFromString("#ff282c35");
                     }
 
-                    internetSpeed.Text = pingTime().ToString("N2") + " Mbps";
+                    internetSpeed.Text = pingTime().ToString() + "ms";
                     writeText("[Ping Test ] " + internetSpeed.Text);
                 }
 
@@ -145,7 +147,7 @@ namespace ManagerThing
                         this.passwordInput.Visibility = System.Windows.Visibility.Collapsed;
                         isAdmin = true;
                     }
-                    this.weekText.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(DateTime.Now.ToString("dddd"));
+                    this.weekText.Text = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(DateTime.Now.ToString("dddd")).Split('-')[0];
                     this.dayText.Text = DateTime.Now.ToString("dd");
                     int extDay = Convert.ToInt32(this.dayText.Text);
                     this.extText.Text = ((extDay == 1) ? "st" : (extDay == 2) ? "nd" : (extDay == 3) ? "rd" : "th");
@@ -207,13 +209,18 @@ namespace ManagerThing
         private void AlphaWindowEnter(object sender, MouseEventArgs e) {  alphaWindowButton.Foreground = (Brush)new BrushConverter().ConvertFromString("#ffeeeeee");  }
         private void AlphaWindowLeave(object sender, MouseEventArgs e) {  alphaWindowButton.Foreground = (Brush)new BrushConverter().ConvertFromString("#ff1c1f25");  }
 
-        private double pingTime()
+        private int pingTime()
         {
-            System.Net.WebClient wc = new System.Net.WebClient();
-            DateTime dt1 = DateTime.Now;
-            byte[] data = wc.DownloadData("http://google.com");
-            DateTime dt2 = DateTime.Now;
-            return ((data.Length * 8) / (dt2 - dt1).TotalSeconds) / 1024;
+            try {
+                using (Ping p = new Ping()) {
+                    PingReply _p = (p.Send("www.google.com"));
+                    // Console.WriteLine(_p.Address + " | " + _p.Status);
+                    //              IP Address ^
+                    return (int)_p.RoundtripTime;
+                }
+            } catch {
+                return -1;
+            }
         }
 
         private void getDrives()
