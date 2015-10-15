@@ -36,6 +36,7 @@ namespace ManagerThing
 
         string pathname = @"C:\Log";
         string _password = "admin";
+        bool isAdmin = false;
 
         private void volumeDownFoo(object sender, MouseButtonEventArgs e) {
             SendMessageW(
@@ -57,10 +58,10 @@ namespace ManagerThing
         {
             InitializeComponent();
 
-            writeText(DateTime.Now.ToString("'- 'dd/MM/yyyy"));
+            entryLog(true);
+            writeText(DateTime.Now.ToString("'['dd/MM/yyyy'] ------------------ App started'"));
 
             int iterationCount = 0;
-            bool isAdmin = false;
 
             bool hasInternetConnection = HasInternetConnection();
             bool hasNetworkConnection = System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable();
@@ -186,8 +187,9 @@ namespace ManagerThing
 
         private void appClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            entryLog(false);
             e.Cancel = true;
-            writeText(DateTime.Now.ToString("'- 'dd/MM/yyyy"));
+            writeText(DateTime.Now.ToString("'['dd/MM/yyyy'] ------------------ App Closed\n'"));
             e.Cancel = false;
         }
 
@@ -265,12 +267,22 @@ namespace ManagerThing
 
         public void writeText(string str) {
             str = DateTime.Now.ToString("HH:mm:ss") + " " + str;
-            using (StreamWriter file = new StreamWriter(pathname + @"\Index.txt", true)) {
+            using (StreamWriter file = new StreamWriter(pathname + @"\Log.txt", true)) {
                 file.WriteLine(str);
             }
             Console.WriteLine(str);
             if (str.IndexOf("[Key       ]") == -1) {
                 log.Text = str + "\n" + log.Text;
+            }
+        }
+
+        public void entryLog(bool started)
+        {
+            string str = DateTime.Now.ToString(
+                (started ? "'Started at" : "'Closed at ") + " 'HH:mm:ss' - 'dd/MM/yyyy"
+            );
+            using (StreamWriter file = new StreamWriter(pathname + @"\Index.txt", true)) {
+                file.WriteLine((!isAdmin && !started ? "[!] Did not insert password\n" : "") + str + (!started ? "\n" : ""));
             }
         }
 
@@ -312,7 +324,7 @@ namespace ManagerThing
             } else {
                 this.ipText.Foreground = this.ipText_local.Foreground = (Brush)new BrushConverter().ConvertFromString("#ffeeeeee");
                 this.ipHide.ToolTip = "Hide";
-                this.ipHide.Foreground = (Brush)new BrushConverter().ConvertFromString("#ffffdd6f");
+                this.ipHide.Foreground = (Brush)new BrushConverter().ConvertFromString("#ff444a59");
                 this.ipHide.Text = "☒";
             }
         }
