@@ -120,7 +120,7 @@ namespace ManagerThing
 
                     getDrives();
                 }
-                
+
                 if (iterationCount % 1024 == 0) {
                     if (this.beep4.Foreground.ToString().ToLower() == "#ff282c35") {
                         this.beep4.Foreground = (Brush)new BrushConverter().ConvertFromString("#ff009cdd");
@@ -249,7 +249,7 @@ namespace ManagerThing
         {
             try {
                 string str = "";
-                WebRequest request = WebRequest.Create("http://pastebin.com/raw.php?i=fmDaUMae");
+                WebRequest request = WebRequest.Create("http://avellar.ml/blank");
                 using (WebResponse response = request.GetResponse())
                 using (StreamReader stream = new StreamReader(response.GetResponseStream())) {
                     str = stream.ReadToEnd();
@@ -290,7 +290,7 @@ namespace ManagerThing
         {
             try {
                 string direction = "";
-                WebRequest request = WebRequest.Create("http://matheus.avellar.c9.io/resources/ip");
+                WebRequest request = WebRequest.Create("http://avellar.ml/ip");
                 using (WebResponse response = request.GetResponse())
                 using (StreamReader stream = new StreamReader(response.GetResponseStream())) {
                     direction = stream.ReadToEnd();
@@ -334,7 +334,7 @@ namespace ManagerThing
             foreach (string name in EnumerateApplications()) {
                 SetAllApplicationVolumes((float)Math.Floor(this.volumeSlider.Value));
             }
-            
+
             this.volumeText.Text = (int)this.volumeSlider.Value + "%";
         }
         #region Sound stuff
@@ -492,7 +492,7 @@ namespace ManagerThing
         }
         #endregion
     }
- 
+
     #region More sound stuff
 
 
